@@ -51,14 +51,17 @@ const Hero = () => {
         </div>
         <div className="hero-image">
           <div className="tech-stack">
+            <div className="tech-item js">
+              <img src="/images/javascript.svg" alt="JavaScript" />
+            </div>
+            <div className="tech-item js">
+              <img src="/images/typeScript.svg" alt="TypeScript" />
+            </div>
             <div className="tech-item react">
               <img src="/images/react.svg" alt="React" />
             </div>
             <div className="tech-item vue">
               <img src="/images/vue.svg" alt="Vue" />
-            </div>
-            <div className="tech-item js">
-              <img src="/images/javascript.svg" alt="JavaScript" />
             </div>
           </div>
         </div>

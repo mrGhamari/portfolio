@@ -2,19 +2,19 @@
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir.css');
 
 :root {
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --secondary-color: #9ca3af;
-  --background-color: #0f172a;
-  --background-light: #1e293b;
-  --card-bg: rgba(30, 41, 59, 0.8);
-  --text-color: #f1f5f9;
-  --text-light-color: #94a3b8;
-  --border-color: #334155;
+  --primary-color: #00ADB5;
+  --primary-hover: #009DA5;
+  --secondary-color: #393E46;
+  --background-color: #222831;
+  --background-light: #393E46;
+  --card-bg: rgba(57, 62, 70, 0.8);
+  --text-color: #EEEEEE;
+  --text-light-color: #EEEEEE;
+  --border-color: #393E46;
   --shadow-color: rgba(0, 0, 0, 0.3);
-  --glow-color: rgba(99, 102, 241, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-highlight: rgba(255, 255, 255, 0.05);
+  --glow-color: rgba(0, 173, 181, 0.4);
+  --glass-border: rgba(238, 238, 238, 0.1);
+  --glass-highlight: rgba(238, 238, 238, 0.05);
 }
 
 * {
