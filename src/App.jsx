@@ -1,23 +1,29 @@
-import React from 'react';
-import Header from './components/layout/Header';
-import Hero from './components/sections/Hero';
-import Skills from './components/sections/Skills';
-import Projects from './components/sections/Projects';
-import Contact from './components/sections/Contact';
-import Footer from './components/layout/Footer';
+import React, { lazy, Suspense } from 'react';
 import './styles/global.css';
+import './App.css';
+
+const Hero = lazy(() => import('./components/sections/Hero'));
+const Skills = lazy(() => import('./components/sections/Skills'));
+const Projects = lazy(() => import('./components/sections/Projects'));
+const Contact = lazy(() => import('./components/sections/Contact'));
+
+const Loading = () => (
+  <div className="loading">
+    <div className="loader"></div>
+  </div>
+);
 
 function App() {
   return (
     <div className="app">
-      {/* <Header /> */}
       <main>
-        <Hero />
-        {/* <Skills />
-        <Projects />
-        <Contact /> */}
+        <Suspense fallback={<Loading />}>
+          <Hero />
+          <Skills />
+          <Projects />
+          <Contact />
+        </Suspense>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }
