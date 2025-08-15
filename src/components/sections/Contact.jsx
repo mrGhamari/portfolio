@@ -1,84 +1,108 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import './Contact.css';
+
+const InfoItem = memo(({ icon, title, content }) => (
+  <div className="info-item">
+    <div className="info-icon">
+      <i className={icon}></i>
+    </div>
+    <div className="info-content">
+      <h3>{title}</h3>
+      <p>{content}</p>
+    </div>
+  </div>
+));
+
+const SocialLink = memo(({ icon, url }) => (
+  <a
+    href={url}
+    className="social-link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <i className={icon}></i>
+  </a>
+));
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
   const [status, setStatus] = useState(null);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
-  };
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    // اینجا می‌توانید کد ارسال فرم به سرور را اضافه کنید
+    // Here you can add the code to send the form to the server
     setStatus('success');
     setTimeout(() => {
       setStatus(null);
       setFormData({ name: '', email: '', message: '' });
     }, 3000);
-  };
+  }, []);
+
+  const [GeneralInformation] = useState([
+    {
+      title: 'Location',
+      icon: 'map-marker-alt',
+      content: 'Iran, Tehran',
+    },
+    {
+      title: 'Phone',
+      icon: 'phone',
+      content: '+98 933 975 2422',
+    },
+    {
+      title: 'Email',
+      icon: 'envelope',
+      content: 'mmdrza77@gmail.com',
+    },
+  ]);
+  const [socialMediaLinks] = useState([
+    { icon: 'github', url: 'https://github.com/mrGhamari' },
+    { icon: 'linkedin', url: 'https://www.linkedin.com/in/mrghamari' },
+    { icon: 'instagram', url: 'https://www.instagram.com/_mmdrza_' },
+    { icon: 'telegram', url: 'https://t.me/mmdrza' },
+  ]);
 
   return (
-    <section className="contact" id="contact">
+    <section className="contact" id="contact" dir="ltr">
       <div className="container">
-        <h2 className="section-title">تماس با من</h2>
+        <h2 className="section-title">Contact Me</h2>
         <div className="contact-container">
           <div className="contact-info">
-            <div className="info-item">
-              <div className="info-icon">
-                <i className="fas fa-envelope"></i>
-              </div>
-              <div className="info-content">
-                <h3>ایمیل</h3>
-                <p>info@example.com</p>
-              </div>
-            </div>
-            <div className="info-item">
-              <div className="info-icon">
-                <i className="fas fa-phone"></i>
-              </div>
-              <div className="info-content">
-                <h3>شماره تماس</h3>
-                <p>09123456789</p>
-              </div>
-            </div>
-            <div className="info-item">
-              <div className="info-icon">
-                <i className="fas fa-map-marker-alt"></i>
-              </div>
-              <div className="info-content">
-                <h3>آدرس</h3>
-                <p>تهران، ایران</p>
-              </div>
-            </div>
+            {GeneralInformation.map((info, index) => (
+              <InfoItem
+                key={index}
+                icon={`fas fa-${info.icon}`}
+                title={info.title}
+                content={info.content}
+              />
+            ))}
+
             <div className="social-links">
-              <a href="#" className="social-link">
-                <i className="fab fa-github"></i>
-              </a>
-              <a href="#" className="social-link">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="social-link">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="social-link">
-                <i className="fab fa-instagram"></i>
-              </a>
+              {socialMediaLinks.map((socialMedia, index) => (
+                <SocialLink
+                  key={index}
+                  icon={`fab fa-${socialMedia.icon}`}
+                  url={socialMedia.url}
+                />
+              ))}
             </div>
           </div>
           <div className="contact-form">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="name">نام</label>
+                <label htmlFor="name">Name</label>
                 <input
                   type="text"
                   id="name"
@@ -89,7 +113,7 @@ const Contact = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="email">ایمیل</label>
+                <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -100,7 +124,7 @@ const Contact = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="message">پیام</label>
+                <label htmlFor="message">Message</label>
                 <textarea
                   id="message"
                   name="message"
@@ -109,10 +133,14 @@ const Contact = () => {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="btn btn-primary">ارسال پیام</button>
-              
+              <button type="submit" className="btn btn-primary">
+                Send Message
+              </button>
+
               {status === 'success' && (
-                <div className="form-success">پیام شما با موفقیت ارسال شد!</div>
+                <div className="form-success">
+                  Your message has been sent successfully!
+                </div>
               )}
             </form>
           </div>
@@ -122,4 +150,4 @@ const Contact = () => {
   );
 };
 
-export default Contact; 
+export default Contact;
