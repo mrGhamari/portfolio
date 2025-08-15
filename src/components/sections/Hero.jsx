@@ -1,73 +1,80 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Hero.css';
+
+const vueImage = '/images/vue.svg';
+const reactImage = '/images/react.svg';
+const jsImage = '/images/javascript.svg';
+const tsImage = '/images/typeScript.svg';
 
 const Hero = () => {
   const sectionRef = useRef(null);
-  
+  const [skillsImages] = useState([
+    { src: jsImage, alt: 'JavaScript Icon', class: 'js' },
+    { src: tsImage, alt: 'TypeScript Icon', class: 'ts' },
+    { src: reactImage, alt: 'React Icon', class: 'react' },
+    { src: vueImage, alt: 'Vue Icon', class: 'vue' },
+  ]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('in-view');
         });
       },
       { threshold: 0.2 }
     );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
-  
+
   return (
-    <section className="hero" id="home" ref={sectionRef}>
+    <section className="hero" id="home" ref={sectionRef} dir="ltr">
       <div className="hero-content">
         <div className="hero-text">
           <h1 className="hero-title">
-            <span className="greeting">سلام، من</span>
-            <span className="name">محمد رضا</span>
-            <span className="role">توسعه‌دهنده فرانت‌اند</span>
+            <span className="name">Mohammadreza Ghamari</span>
+            <span className="role">Frontend Developer</span>
           </h1>
           <p className="hero-description">
-            متخصص در توسعه اپلیکیشن‌های وب مدرن با React و Vue.js، با تجربه در ساخت رابط‌های کاربری پویا و کارآمد
+            Skilled in developing modern, high-performance web applications
+            using React and Vue.js, with a focus on creating user-friendly
+            interfaces and delivering seamless user experiences.
           </p>
           <div className="hero-buttons">
-            <a href="#projects" className="btn btn-primary">
-              مشاهده پروژه‌ها
-              <i className="fas fa-arrow-left" style={{ marginRight: '0.5rem' }}></i>
-            </a>
             <a href="#contact" className="btn btn-outline">
-              تماس با من
+              Contact Me
+            </a>
+            <a href="#projects" className="btn btn-primary">
+              Projects
+              <i
+                className="fas fa-arrow-right"
+                style={{ marginLeft: '0.5rem' }}
+              />
             </a>
           </div>
         </div>
         <div className="hero-image">
           <div className="tech-stack">
-            <div className="tech-item js">
-              <img src="/images/javascript.svg" alt="JavaScript" />
-            </div>
-            <div className="tech-item js">
-              <img src="/images/typeScript.svg" alt="TypeScript" />
-            </div>
-            <div className="tech-item react">
-              <img src="/images/react.svg" alt="React" />
-            </div>
-            <div className="tech-item vue">
-              <img src="/images/vue.svg" alt="Vue" />
-            </div>
+            {skillsImages.map((item, index) => (
+              <div className={`tech-item ${item.class}`} key={index}>
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  width="70"
+                  height="70"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
 };
-
-export default Hero; 
+export default Hero;
