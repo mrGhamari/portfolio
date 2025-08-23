@@ -6,9 +6,7 @@ import { fileURLToPath, URL } from 'node:url';
 export default defineConfig({
   base: '/portfolio/',
   plugins: [react()],
-  resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
-  },
+  resolve: { alias: { '@': new URL('./src', import.meta.url).pathname } },
   build: {
     minify: 'terser',
     terserOptions: { compress: { drop_console: true, drop_debugger: true } },
