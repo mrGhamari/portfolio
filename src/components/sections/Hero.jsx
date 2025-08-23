@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Hero.css';
 
-const vueImage = '/images/vue.svg';
-const reactImage = '/images/react.svg';
-const jsImage = '/images/javascript.svg';
-const tsImage = '/images/typeScript.svg';
+const vueImage = `${import.meta.env.BASE_URL}images/vue.svg`;
+const reactImage = `${import.meta.env.BASE_URL}images/react.svg`;
+const jsImage = `${import.meta.env.BASE_URL}images/javascript.svg`;
+const tsImage = `${import.meta.env.BASE_URL}images/typeScript.svg`;
 
 const Hero = () => {
   const sectionRef = useRef(null);
