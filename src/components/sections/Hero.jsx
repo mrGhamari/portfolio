@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Hero.css';
 
-import jsImage from '@/assets/javascript.svg';
-import tsImage from '@/assets/typeScript.svg';
-import reactImage from '@/assets/react.svg';
-import vueImage from '@/assets/vue.svg';
+import jsImage    from '@/assets/javascript.svg?url'
+import tsImage    from '@/assets/typeScript.svg?url'
+import reactImage from '@/assets/react.svg?url'
+import vueImage   from '@/assets/vue.svg?url'
 
 const Hero = () => {
   const sectionRef = useRef(null);
