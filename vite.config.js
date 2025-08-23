@@ -1,18 +1,17 @@
+// vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
 
-// https://vite.dev/config/
 export default defineConfig({
-  base: '/portfolio',
+  base: '/portfolio/',
   plugins: [react()],
+  resolve: {
+    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
   build: {
     minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    terserOptions: { compress: { drop_console: true, drop_debugger: true } },
     rollupOptions: {
       output: {
         manualChunks: {
@@ -29,14 +28,7 @@ export default defineConfig({
     reportCompressedSize: true,
     cssCodeSplit: true,
   },
-  server: {
-    open: true,
-    host: true,
-  },
-  preview: {
-    port: 8080,
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom'],
-  },
+  server: { open: true, host: true },
+  preview: { port: 8080 },
+  optimizeDeps: { include: ['react', 'react-dom'] },
 });
