@@ -66,8 +66,6 @@ const Hero = () => {
                   src={item.src}
                   alt={item.alt}
                   loading="lazy"
-                  width="70"
-                  height="70"
                 />
               </div>
             ))}

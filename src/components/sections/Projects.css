@@ -271,6 +271,20 @@
   }
 }
 
+/* Fix button widths for mobile */
+@media (max-width: 640px) {
+  .project-overlay .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    max-width: max-content;
+    min-height: 44px;
+    width: auto;
+    text-align: center;
+  }
+}
+
 /* FadeIn Animation */
 @keyframes fadeIn {
   0% {
