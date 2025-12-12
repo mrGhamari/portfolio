@@ -1,128 +1,159 @@
-import React, { useState, useCallback, memo } from 'react';
+import { useState, useCallback, memo, useMemo } from 'react';
+import { CONTACT_INFO, SOCIAL_LINKS } from '@/constants/data';
 import './Contact.css';
 
-const InfoItem = memo(({ icon, title, content }) => (
-  <div className="info-item">
-    <div className="info-icon">
-      <i className={icon}></i>
-    </div>
-    <div className="info-content">
-      <h3>{title}</h3>
-      <p>{content}</p>
-    </div>
-  </div>
-));
+const INITIAL_FORM_STATE = {
+  name: '',
+  email: '',
+  message: '',
+};
 
-const SocialLink = memo(({ icon, url }) => (
-  <a
-    href={url}
-    className="social-link"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <i className={icon}></i>
-  </a>
-));
+const InfoItem = memo(function InfoItem({ icon, title, content }) {
+  return (
+    <div className="info-item">
+      <div className="info-icon" aria-hidden="true">
+        <i className={icon} />
+      </div>
+      <div className="info-content">
+        <h3>{title}</h3>
+        <p>{content}</p>
+      </div>
+    </div>
+  );
+});
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+const SocialLink = memo(function SocialLink({ icon, url, label }) {
+  return (
+    <a
+      href={url}
+      className="social-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+    >
+      <i className={icon} aria-hidden="true" />
+    </a>
+  );
+});
+
+const FormInput = memo(function FormInput({
+  type = 'text',
+  id,
+  name,
+  label,
+  value,
+  onChange,
+  required = true,
+}) {
+  return (
+    <div className="form-group">
+      <label htmlFor={id}>{label}</label>
+      <input
+        type={type}
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        required={required}
+        autoComplete={name}
+      />
+    </div>
+  );
+});
+
+function Contact() {
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [status, setStatus] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    // Here you can add the code to send the form to the server
-    setStatus('success');
-    setTimeout(() => {
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+
+      setIsSubmitting(true);
       setStatus(null);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
-  }, []);
 
-  const [GeneralInformation] = useState([
-    {
-      title: 'Location',
-      icon: 'map-marker-alt',
-      content: 'Iran, Tehran',
+      try {
+        // Simulate form submission
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setStatus('success');
+        setFormData(INITIAL_FORM_STATE);
+      } catch {
+        setStatus('error');
+      } finally {
+        setIsSubmitting(false);
+        setTimeout(() => setStatus(null), 5000);
+      }
     },
-    {
-      title: 'Phone',
-      icon: 'phone',
-      content: '+98 933 975 2422',
-    },
-    {
-      title: 'Email',
-      icon: 'envelope',
-      content: 'mmdrza77@gmail.com',
-    },
-  ]);
-  const [socialMediaLinks] = useState([
-    { icon: 'github', url: 'https://github.com/mrGhamari' },
-    { icon: 'linkedin', url: 'https://www.linkedin.com/in/mrghamari' },
-    { icon: 'instagram', url: 'https://www.instagram.com/_mmdrza_' },
-    { icon: 'telegram', url: 'https://t.me/mmdrza' },
-  ]);
+    [isSubmitting]
+  );
+
+  const contactInfoItems = useMemo(
+    () =>
+      CONTACT_INFO.map((info) => (
+        <InfoItem
+          key={info.id}
+          icon={info.icon}
+          title={info.title}
+          content={info.content}
+        />
+      )),
+    []
+  );
+
+  const socialLinkItems = useMemo(
+    () =>
+      SOCIAL_LINKS.map((social) => (
+        <SocialLink
+          key={social.id}
+          icon={social.icon}
+          url={social.url}
+          label={social.label}
+        />
+      )),
+    []
+  );
 
   return (
-    <section className="contact" id="contact" dir="ltr">
+    <section
+      className="contact"
+      id="contact"
+      dir="ltr"
+      aria-label="Contact section"
+    >
       <div className="container">
         <h2 className="section-title">Contact Me</h2>
         <div className="contact-container">
-          <div className="contact-info">
-            {GeneralInformation.map((info, index) => (
-              <InfoItem
-                key={index}
-                icon={`fas fa-${info.icon}`}
-                title={info.title}
-                content={info.content}
-              />
-            ))}
-
-            <div className="social-links">
-              {socialMediaLinks.map((socialMedia, index) => (
-                <SocialLink
-                  key={index}
-                  icon={`fab fa-${socialMedia.icon}`}
-                  url={socialMedia.url}
-                />
-              ))}
+          <aside className="contact-info">
+            {contactInfoItems}
+            <div className="social-links" aria-label="Social media links">
+              {socialLinkItems}
             </div>
-          </div>
+          </aside>
+
           <div className="contact-form">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <form onSubmit={handleSubmit} noValidate>
+              <FormInput
+                id="name"
+                name="name"
+                label="Name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <FormInput
+                type="email"
+                id="email"
+                name="email"
+                label="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
               <div className="form-group">
                 <label htmlFor="message">Message</label>
                 <textarea
@@ -131,15 +162,27 @@ const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                ></textarea>
+                  rows="5"
+                />
               </div>
-              <button type="submit" className="btn btn-primary">
-                Send Message
+
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
 
               {status === 'success' && (
-                <div className="form-success">
+                <div className="form-success" role="alert">
                   Your message has been sent successfully!
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div className="form-error" role="alert">
+                  Failed to send message. Please try again.
                 </div>
               )}
             </form>
@@ -148,6 +191,6 @@ const Contact = () => {
       </div>
     </section>
   );
-};
+}
 
-export default Contact;
+export default memo(Contact);

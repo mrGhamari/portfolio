@@ -45,7 +45,14 @@
 .hero-text {
   z-index: 1;
   opacity: 0;
-  animation: fadeIn 0.8s ease forwards 0.3s;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero--in-view .hero-text,
+.hero.in-view .hero-text {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero-title {
@@ -103,7 +110,14 @@
   align-items: center;
   width: 100%;
   opacity: 0;
-  animation: fadeIn 0.8s ease forwards 0.5s;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.hero--in-view .hero-image,
+.hero.in-view .hero-image {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .tech-stack {

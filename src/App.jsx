@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
+import Loading from './components/common/Loading';
 import './styles/global.css';
 import './App.css';
 
@@ -6,12 +7,6 @@ const Hero = lazy(() => import('./components/sections/Hero'));
 const Skills = lazy(() => import('./components/sections/Skills'));
 const Projects = lazy(() => import('./components/sections/Projects'));
 const Contact = lazy(() => import('./components/sections/Contact'));
-
-const Loading = () => (
-  <div className="loading">
-    <div className="loader"></div>
-  </div>
-);
 
 function App() {
   return (
