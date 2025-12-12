@@ -157,6 +157,24 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
+.form-group.has-error input,
+.form-group.has-error textarea {
+  border-color: #dc3545;
+}
+
+.form-group.has-error input:focus,
+.form-group.has-error textarea:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+.field-error {
+  display: block;
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
 .form-group textarea {
   height: 150px;
   resize: vertical;

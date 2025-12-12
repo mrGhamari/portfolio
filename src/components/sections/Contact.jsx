@@ -1,12 +1,7 @@
-import { useState, useCallback, memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { CONTACT_INFO, SOCIAL_LINKS } from '@/constants/data';
+import { useContactForm } from '@/hooks';
 import './Contact.css';
-
-const INITIAL_FORM_STATE = {
-  name: '',
-  email: '',
-  message: '',
-};
 
 const InfoItem = memo(function InfoItem({ icon, title, content }) {
   return (
@@ -36,63 +31,148 @@ const SocialLink = memo(function SocialLink({ icon, url, label }) {
   );
 });
 
-const FormInput = memo(function FormInput({
+const FormField = memo(function FormField({
+  as: Component = 'input',
   type = 'text',
   id,
   name,
   label,
   value,
   onChange,
-  required = true,
+  onBlur,
+  error,
+  ...props
 }) {
+  const hasError = Boolean(error);
+  const errorId = `${id}-error`;
+
   return (
-    <div className="form-group">
+    <div className={`form-group ${hasError ? 'has-error' : ''}`}>
       <label htmlFor={id}>{label}</label>
-      <input
-        type={type}
+      <Component
+        type={Component === 'input' ? type : undefined}
         id={id}
         name={name}
         value={value}
         onChange={onChange}
-        required={required}
+        onBlur={onBlur}
         autoComplete={name}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? errorId : undefined}
+        {...props}
       />
+      {hasError && (
+        <span id={errorId} className="field-error" role="alert">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+});
+
+const ContactInfo = memo(function ContactInfo({ items, socialLinks }) {
+  return (
+    <aside className="contact-info">
+      {items}
+      <div className="social-links" aria-label="Social media links">
+        {socialLinks}
+      </div>
+    </aside>
+  );
+});
+
+const FormStatus = memo(function FormStatus({ isSuccess, isError }) {
+  if (isSuccess) {
+    return (
+      <div className="form-success" role="alert">
+        Your message has been sent successfully!
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="form-error" role="alert">
+        Failed to send message. Please try again.
+      </div>
+    );
+  }
+
+  return null;
+});
+
+const ContactForm = memo(function ContactForm({
+  formData,
+  errors,
+  isSubmitting,
+  isSuccess,
+  isError,
+  onSubmit,
+  onChange,
+  onBlur,
+}) {
+  return (
+    <div className="contact-form">
+      <form onSubmit={onSubmit} noValidate>
+        <FormField
+          id="name"
+          name="name"
+          label="Name"
+          value={formData.name}
+          onChange={onChange}
+          onBlur={onBlur}
+          error={errors.name}
+          required
+        />
+        <FormField
+          type="email"
+          id="email"
+          name="email"
+          label="Email"
+          value={formData.email}
+          onChange={onChange}
+          onBlur={onBlur}
+          error={errors.email}
+          required
+        />
+        <FormField
+          as="textarea"
+          id="message"
+          name="message"
+          label="Message"
+          value={formData.message}
+          onChange={onChange}
+          onBlur={onBlur}
+          error={errors.message}
+          rows={5}
+          required
+        />
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
+        </button>
+
+        <FormStatus isSuccess={isSuccess} isError={isError} />
+      </form>
     </div>
   );
 });
 
 function Contact() {
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  const [status, setStatus] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  }, []);
-
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      if (isSubmitting) return;
-
-      setIsSubmitting(true);
-      setStatus(null);
-
-      try {
-        // Simulate form submission
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setStatus('success');
-        setFormData(INITIAL_FORM_STATE);
-      } catch {
-        setStatus('error');
-      } finally {
-        setIsSubmitting(false);
-        setTimeout(() => setStatus(null), 5000);
-      }
-    },
-    [isSubmitting]
-  );
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    isSuccess,
+    isError,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useContactForm();
 
   const contactInfoItems = useMemo(
     () =>
@@ -130,63 +210,17 @@ function Contact() {
       <div className="container">
         <h2 className="section-title">Contact Me</h2>
         <div className="contact-container">
-          <aside className="contact-info">
-            {contactInfoItems}
-            <div className="social-links" aria-label="Social media links">
-              {socialLinkItems}
-            </div>
-          </aside>
-
-          <div className="contact-form">
-            <form onSubmit={handleSubmit} noValidate>
-              <FormInput
-                id="name"
-                name="name"
-                label="Name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              <FormInput
-                type="email"
-                id="email"
-                name="email"
-                label="Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="5"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </button>
-
-              {status === 'success' && (
-                <div className="form-success" role="alert">
-                  Your message has been sent successfully!
-                </div>
-              )}
-
-              {status === 'error' && (
-                <div className="form-error" role="alert">
-                  Failed to send message. Please try again.
-                </div>
-              )}
-            </form>
-          </div>
+          <ContactInfo items={contactInfoItems} socialLinks={socialLinkItems} />
+          <ContactForm
+            formData={formData}
+            errors={errors}
+            isSubmitting={isSubmitting}
+            isSuccess={isSuccess}
+            isError={isError}
+            onSubmit={handleSubmit}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
       </div>
     </section>
