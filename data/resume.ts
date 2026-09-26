@@ -156,7 +156,7 @@ export const EXPERIENCE: readonly Experience[] = [
     period: '02/2022 — 09/2022',
     location: 'Tehran, Iran',
     bullets: [
-      'Designed and developed the Ecotam web application with a server-side architecture using Nuxt 3 and Vue 3. Implemented scalable, high-performance solutions to ensure a modern and user-friendly experience.',
+      'Designed and developed the Ecotam web application with a server-side architecture using Nuxt 3 (beta) and Vue 3. Implemented scalable, high-performance solutions to ensure a modern and user-friendly experience.',
     ],
   },
 ] as const;
