@@ -12,7 +12,12 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
+// Search Console HTML-tag token (public: it ships in the page's <head>).
+// The GOOGLE_SITE_VERIFICATION repo variable can override it; `||` because the
+// workflow passes an empty string when that variable is unset.
+const googleVerification =
+  process.env.GOOGLE_SITE_VERIFICATION ||
+  'iECZJoSaDjiMc2GI0zg1Z7BwFIAJ8Yp9CW2XxBQnEdE';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

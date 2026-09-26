@@ -157,8 +157,8 @@ my-app/
 
 #### Search Console setup
 1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/portfolio/` and pick the **HTML tag** method.
-2. Copy the `content` token into a repository variable named `GOOGLE_SITE_VERIFICATION` (Settings → Secrets and variables → Actions → Variables) and re-run the deploy workflow.
-3. Verify, then submit `sitemap.xml` under **Sitemaps**.
+2. The token is set in `app/layout.tsx` (it is public anyway: it ships in the page's `<head>`). To use a different one without a code change, set a repository variable named `GOOGLE_SITE_VERIFICATION` (Settings → Secrets and variables → Actions → Variables) and re-run the deploy workflow.
+3. Verify, then submit `sitemap.xml` under **Sitemaps**. Keep the tag in place afterwards: Google re-checks it periodically.
 
 > Crawlers only read `robots.txt` from a domain root, so it is ignored while the site lives under `/portfolio/`. It starts working once the site is served from a custom domain or a `<user>.github.io` repository.
 
