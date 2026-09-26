@@ -38,6 +38,43 @@
   @keyframes caret-blink {
     50% { opacity: 0; }
   }
+
+  --animate-pulse-ring: pulse-ring 2.2s ease-out infinite;
+
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.55); }
+    50% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  }
+}
+
+/*
+ * Scroll-reveal without JavaScript: CSS scroll-driven animations.
+ * Content is fully visible in the static HTML; it is only hidden-then-revealed
+ * in browsers that support view timelines, and never when reduced motion is on.
+ */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+@keyframes reveal-line {
+  from { transform: scaleX(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 160px;
+    }
+
+    .reveal-line {
+      transform-origin: left;
+      animation: reveal-line linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 30%;
+    }
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }

@@ -1,5 +1,3 @@
-'use client';
-
 import { GraduationCap } from 'lucide-react';
 import { EDUCATION } from '@/data/resume';
 import { AnimatedCard } from '@/components/ui/AnimatedCard';
@@ -20,10 +18,9 @@ export function Education() {
         </SectionHeading>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {EDUCATION.map((e, i) => (
+          {EDUCATION.map((e) => (
             <AnimatedCard
               key={e.degree}
-              delay={i * 0.08}
               href={e.url}
               target={e.url ? '_blank' : undefined}
               rel={e.url ? 'noopener noreferrer' : undefined}

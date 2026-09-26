@@ -1,12 +1,10 @@
-'use client';
-
 import { Languages as LanguagesIcon } from 'lucide-react';
 import { LANGUAGES } from '@/data/resume';
 import { AnimatedCard } from '@/components/ui/AnimatedCard';
 
 export function Languages() {
   return (
-    <AnimatedCard delay={0.16} ariaLabel="Languages">
+    <AnimatedCard>
       <div className="flex items-center gap-3">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-500/10 text-accent-500">
           <LanguagesIcon className="h-5 w-5" aria-hidden="true" />

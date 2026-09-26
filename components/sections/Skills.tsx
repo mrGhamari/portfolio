@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { SKILL_GROUPS } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -20,18 +17,8 @@ export function Skills() {
         </SectionHeading>
 
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {SKILL_GROUPS.map((group, groupIdx) => (
-            <motion.div
-              key={group.category}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                duration: 0.5,
-                delay: groupIdx * 0.08,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
+          {SKILL_GROUPS.map((group) => (
+            <div key={group.category} className="reveal">
               <div className="flex items-center justify-between gap-4">
                 <h3 className="text-sm font-semibold text-primary dark:text-secondary">
                   {group.category}
@@ -39,11 +26,11 @@ export function Skills() {
                 <SkillLevelDots level={group.level} />
               </div>
               <ul className="mt-3 flex flex-wrap gap-2">
-                {group.items.map((item, i) => (
-                  <SkillBadge key={item} label={item} index={i} />
+                {group.items.map((item) => (
+                  <SkillBadge key={item} label={item} />
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
       </Container>

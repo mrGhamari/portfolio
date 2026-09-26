@@ -105,6 +105,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        {/* Without JS the typewriter never runs, so show the full title. */}
+        <noscript>
+          <style>{'.typed-rest{opacity:1!important}'}</style>
+        </noscript>
+      </head>
       <body className="font-sans">
         <a
           href="#main"

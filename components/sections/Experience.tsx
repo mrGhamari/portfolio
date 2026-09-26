@@ -1,5 +1,3 @@
-'use client';
-
 import { EXPERIENCE } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -22,7 +20,6 @@ export function Experience() {
               key={`${item.company}-${item.period}`}
               item={item}
               isLast={idx === EXPERIENCE.length - 1}
-              index={idx}
             />
           ))}
         </ol>

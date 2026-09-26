@@ -1,18 +1,12 @@
-'use client';
-
 import { Mail } from 'lucide-react';
 import { LinkedinIcon } from '@/components/ui/icons/LinkedinIcon';
-import { useEffect, useState } from 'react';
 import { PERSONAL } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { DownloadButton } from '@/components/ui/DownloadButton';
 
 export function Footer() {
-  const [year, setYear] = useState<number | null>(null);
-
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
+  // Rendered at build time; every deploy refreshes it.
+  const year = new Date().getFullYear();
 
   return (
     <footer
@@ -27,7 +21,7 @@ export function Footer() {
           </span>{' '}
           by {PERSONAL.name}
           <span className="mx-2 text-black/20 dark:text-white/20">·</span>©{' '}
-          <span suppressHydrationWarning>{year ?? ''}</span>
+          {year}
         </p>
 
         <div className="flex items-center gap-3">

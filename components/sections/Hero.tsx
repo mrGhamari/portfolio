@@ -1,39 +1,10 @@
-'use client';
-
-import { useReducedMotion } from 'framer-motion';
 import { Download, Mail, MapPin, Phone } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import { LinkedinIcon } from '@/components/ui/icons/LinkedinIcon';
-import { useEffect, useState, type CSSProperties } from 'react';
 import { PERSONAL } from '@/data/resume';
 import { ContactPill } from '@/components/ui/ContactPill';
 import { Container } from '@/components/ui/Container';
-import { cn } from '@/lib/utils';
-
-function useTypewriter(text: string, speed = 60, startDelay = 300) {
-  const reduceMotion = useReducedMotion();
-  const [out, setOut] = useState('');
-  useEffect(() => {
-    if (reduceMotion) {
-      setOut(text);
-      return;
-    }
-    setOut('');
-    let i = 0;
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-    const timeoutId = window.setTimeout(() => {
-      intervalId = setInterval(() => {
-        i += 1;
-        setOut(text.slice(0, i));
-        if (i >= text.length && intervalId) clearInterval(intervalId);
-      }, speed);
-    }, startDelay);
-    return () => {
-      window.clearTimeout(timeoutId);
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [text, speed, startDelay, reduceMotion]);
-  return out;
-}
+import { TypedTitle } from '@/components/ui/TypedTitle';
 
 const nameLetters = PERSONAL.name.split('');
 
@@ -42,9 +13,6 @@ const delay = (seconds: number): CSSProperties => ({
 });
 
 export function Hero() {
-  const typed = useTypewriter(PERSONAL.title);
-  const typingDone = typed.length === PERSONAL.title.length;
-
   return (
     <section
       id="top"
@@ -78,19 +46,10 @@ export function Hero() {
           ))}
         </h1>
 
-        <p className="mt-4 min-h-[1.5em] text-xl font-light tracking-wide text-muted md:text-2xl">
-          {/* The whole title is always in the DOM exactly once (so it's in the
-              static HTML for crawlers); the not-yet-typed tail is just transparent. */}
-          <span>{typed}</span>
-          <span
-            aria-hidden="true"
-            className={cn(
-              'ml-0.5 inline-block h-[0.95em] w-[2px] translate-y-[2px] bg-accent-500 align-middle',
-              typingDone && 'animate-caret-blink',
-            )}
-          />
-          <span className="opacity-0">{PERSONAL.title.slice(typed.length)}</span>
-        </p>
+        <TypedTitle
+          text={PERSONAL.title}
+          className="mt-4 min-h-[1.5em] text-xl font-light tracking-wide text-muted md:text-2xl"
+        />
 
         <p
           style={delay(0.3)}

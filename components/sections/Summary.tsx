@@ -1,7 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { useMemo } from 'react';
 import { SUMMARY, SUMMARY_HIGHLIGHTS } from '@/data/resume';
 import { Container } from '@/components/ui/Container';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -20,9 +16,9 @@ function highlight(text: string, terms: readonly string[]) {
   }));
 }
 
-export function Summary() {
-  const tokens = useMemo(() => highlight(SUMMARY, SUMMARY_HIGHLIGHTS), []);
+const tokens = highlight(SUMMARY, SUMMARY_HIGHLIGHTS);
 
+export function Summary() {
   return (
     <section
       id="summary"
@@ -31,12 +27,8 @@ export function Summary() {
     >
       <Container>
         <SectionHeading eyebrow="01 — Summary">A quick introduction.</SectionHeading>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-3xl text-[15px] leading-[1.85] text-primary/80 dark:text-secondary/80 sm:text-base"
+        <p
+          className="reveal max-w-3xl text-[15px] leading-[1.85] text-primary/80 dark:text-secondary/80 sm:text-base"
         >
           {tokens.map((t) =>
             t.hl ? (
@@ -50,7 +42,7 @@ export function Summary() {
               <span key={t.key}>{t.text}</span>
             ),
           )}
-        </motion.p>
+        </p>
       </Container>
     </section>
   );
