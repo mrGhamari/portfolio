@@ -7,6 +7,7 @@ export type Personal = Readonly<{
   location: string;
   linkedinHandle: string;
   linkedinUrl: string;
+  githubUrl: string;
   portfolioUrl: string;
   resumeUrl: string;
   resumeFilename: string;
@@ -53,6 +54,7 @@ export const PERSONAL: Personal = {
   location: 'Tehran, Iran',
   linkedinHandle: 'mrGhamari',
   linkedinUrl: 'https://www.linkedin.com/in/mrGhamari',
+  githubUrl: 'https://github.com/mrGhamari',
   portfolioUrl: 'https://mrghamari.github.io/portfolio/',
   resumeUrl: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/Resume.pdf`,
   resumeFilename: 'Mohammadreza_Ghamari_Resume.pdf',

@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Providers } from '@/components/providers';
+import { StructuredData } from '@/components/seo/StructuredData';
 import { PERSONAL } from '@/data/resume';
+import { BASE_PATH, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -10,30 +12,81 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
-  title: `${PERSONAL.name} — ${PERSONAL.title}`,
-  description:
-    'Senior Frontend Developer with five years of experience in scalable, high-performance web applications. Specializing in React, Next.js, Vue.js, and modern UI/UX design systems.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_TITLE} | React & Next.js`,
+    template: `%s | ${PERSONAL.name}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: PERSONAL.name,
   keywords: [
     'Mohammadreza Ghamari',
     'Senior Frontend Developer',
-    'React',
-    'Next.js',
-    'Vue.js',
+    'Frontend Developer Tehran',
+    'React Developer',
+    'Next.js Developer',
+    'Vue.js Developer',
     'Nuxt.js',
     'TypeScript',
     'Tehran',
+    'Iran',
   ],
   authors: [{ name: PERSONAL.name, url: PERSONAL.linkedinUrl }],
   creator: PERSONAL.name,
-  openGraph: {
-    title: `${PERSONAL.name} — ${PERSONAL.title}`,
-    description:
-      'Frontend developer with five years of experience in scalable web applications.',
-    type: 'profile',
-    locale: 'en_US',
+  publisher: PERSONAL.name,
+  category: 'technology',
+  // Relative to metadataBase, so this resolves to the /portfolio/ URL.
+  alternates: { canonical: './' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
-  twitter: { card: 'summary_large_image' },
+  openGraph: {
+    type: 'profile',
+    url: './',
+    siteName: PERSONAL.name,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: 'en_US',
+    firstName: PERSONAL.name.split(' ')[0],
+    lastName: PERSONAL.name.split(' ').slice(1).join(' '),
+    username: PERSONAL.linkedinHandle,
+    images: [
+      {
+        url: 'og-image.png',
+        width: 1200,
+        height: 630,
+        alt: `${PERSONAL.name} — ${PERSONAL.title}`,
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ['og-image.png'],
+  },
+  icons: {
+    icon: [
+      { url: `${BASE_PATH}/icon-32.png`, sizes: '32x32', type: 'image/png' },
+      { url: `${BASE_PATH}/icon-192.png`, sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [{ url: `${BASE_PATH}/apple-touch-icon.png`, sizes: '180x180' }],
+  },
+  // Stops iOS from turning dates/numbers in the resume into phone links.
+  formatDetection: { telephone: false, address: false, email: false },
+  ...(googleVerification && { verification: { google: googleVerification } }),
 };
 
 export const viewport: Viewport = {
@@ -60,6 +113,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <Providers>{children}</Providers>
+        <StructuredData />
       </body>
     </html>
   );

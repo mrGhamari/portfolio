@@ -63,27 +63,25 @@ export function Hero() {
           Curriculum Vitae
         </p>
 
-        <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-primary dark:text-secondary md:text-6xl"
+        <h1
+          aria-label={PERSONAL.name}
+          className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-primary dark:text-secondary md:text-6xl"
         >
-          <span className="sr-only">{PERSONAL.name}</span>
-          <span aria-hidden="true">
-            {nameLetters.map((char, i) => (
-              <span
-                key={i}
-                style={delay(0.1 + i * 0.025)}
-                className="inline-block animate-letter-rise"
-              >
-                {char === ' ' ? ' ' : char}
-              </span>
-            ))}
-          </span>
+          {nameLetters.map((char, i) => (
+            <span
+              key={i}
+              style={delay(0.1 + i * 0.025)}
+              className="inline-block animate-letter-rise"
+            >
+              {char === ' ' ? ' ' : char}
+            </span>
+          ))}
         </h1>
 
         <p className="mt-4 min-h-[1.5em] text-xl font-light tracking-wide text-muted md:text-2xl">
-          {/* Full title stays in the static HTML for crawlers and screen readers;
-              the typed copy is purely visual. */}
-          <span className="sr-only">{PERSONAL.title}</span>
-          <span aria-hidden="true">{typed}</span>
+          {/* The whole title is always in the DOM exactly once (so it's in the
+              static HTML for crawlers); the not-yet-typed tail is just transparent. */}
+          <span>{typed}</span>
           <span
             aria-hidden="true"
             className={cn(
@@ -91,6 +89,7 @@ export function Hero() {
               typingDone && 'animate-caret-blink',
             )}
           />
+          <span className="opacity-0">{PERSONAL.title.slice(typed.length)}</span>
         </p>
 
         <p
