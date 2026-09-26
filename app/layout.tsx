@@ -22,13 +22,15 @@ const googleVerification =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_TITLE} | React & Next.js`,
+    // The Persian name in the title helps the page rank for searches in Persian.
+    default: `${PERSONAL.name} (${PERSONAL.nameFa}) — ${PERSONAL.title}`,
     template: `%s | ${PERSONAL.name}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: PERSONAL.name,
   keywords: [
     'Mohammadreza Ghamari',
+    PERSONAL.nameFa,
     'Senior Frontend Developer',
     'Frontend Developer Tehran',
     'React Developer',

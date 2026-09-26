@@ -1,5 +1,7 @@
 export type Personal = Readonly<{
   name: string;
+  /** Persian spelling, used only in metadata and structured data (not shown in the UI). */
+  nameFa: string;
   title: string;
   email: string;
   phone: string;
@@ -47,6 +49,7 @@ export type NavLink = Readonly<{
 
 export const PERSONAL: Personal = {
   name: 'Mohammadreza Ghamari',
+  nameFa: 'محمدرضا قمری',
   title: 'Senior Frontend Developer',
   email: 'mmdrza77@gmail.com',
   phone: '+98 933 975 2422',
