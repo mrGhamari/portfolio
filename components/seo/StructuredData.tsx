@@ -5,6 +5,7 @@ const personId = `${SITE_URL}#person`;
 const websiteId = `${SITE_URL}#website`;
 
 const [latest] = EXPERIENCE;
+const isCurrentJob = latest?.period.endsWith('Present') ?? false;
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -53,6 +54,9 @@ const structuredData = {
         name: e.school,
         ...(e.url && { url: e.url }),
       })),
+      ...(isCurrentJob && {
+        worksFor: { '@type': 'Organization', name: latest.company },
+      }),
       hasOccupation: {
         '@type': 'Occupation',
         name: latest?.role ?? PERSONAL.title,
