@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { useCallback } from 'react';
 import { PERSONAL } from '@/data/resume';
@@ -17,6 +17,10 @@ export function DownloadButton({
   className,
   showLabel = true,
 }: DownloadButtonProps) {
+  // MotionConfig's reducedMotion only disables transforms, not this box-shadow loop.
+  const reduceMotion = useReducedMotion();
+  const pulse = variant === 'primary' && !reduceMotion;
+
   const handleDownload = useCallback(() => {
     const link = document.createElement('a');
     link.href = PERSONAL.resumeUrl;
@@ -49,7 +53,7 @@ export function DownloadButton({
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
       animate={
-        variant === 'primary'
+        pulse
           ? {
               boxShadow: [
                 '0 8px 24px -8px rgba(59,130,246,0.45)',
@@ -60,7 +64,7 @@ export function DownloadButton({
           : undefined
       }
       transition={
-        variant === 'primary'
+        pulse
           ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
           : undefined
       }

@@ -1,11 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { useCallback } from 'react';
 import { PERSONAL } from '@/data/resume';
 
 export function FloatingDownloadButton() {
+  // MotionConfig's reducedMotion only disables transforms, not this box-shadow loop.
+  const pulse = !useReducedMotion();
+
   const handleDownload = useCallback(() => {
     const link = document.createElement('a');
     link.href = PERSONAL.resumeUrl;
@@ -23,16 +26,20 @@ export function FloatingDownloadButton() {
       animate={{
         opacity: 1,
         scale: 1,
-        boxShadow: [
-          '0 10px 30px -10px rgba(59,130,246,0.5)',
-          '0 14px 40px -8px rgba(59,130,246,0.7)',
-          '0 10px 30px -10px rgba(59,130,246,0.5)',
-        ],
+        boxShadow: pulse
+          ? [
+              '0 10px 30px -10px rgba(59,130,246,0.5)',
+              '0 14px 40px -8px rgba(59,130,246,0.7)',
+              '0 10px 30px -10px rgba(59,130,246,0.5)',
+            ]
+          : '0 10px 30px -10px rgba(59,130,246,0.5)',
       }}
       transition={{
         opacity: { duration: 0.4, delay: 0.6 },
         scale: { duration: 0.4, delay: 0.6 },
-        boxShadow: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
+        boxShadow: pulse
+          ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+          : { duration: 0 },
       }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.92 }}

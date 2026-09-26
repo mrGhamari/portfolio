@@ -1,10 +1,9 @@
 @import "tailwindcss";
-@import url('https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800,900&display=swap');
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   --color-primary: #0A0A0A;
   --color-secondary: #FAFAFA;
@@ -22,6 +21,23 @@
   --color-accent-900: #1E3A8A;
 
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fade-up: fade-up 0.5s var(--ease-smooth) both;
+  --animate-letter-rise: letter-rise 0.5s var(--ease-smooth) both;
+  --animate-caret-blink: caret-blink 1s step-end infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+
+  /* Transform only: the heading stays visible (and counts for LCP) from first paint. */
+  @keyframes letter-rise {
+    from { transform: translateY(0.25em); }
+  }
+
+  @keyframes caret-blink {
+    50% { opacity: 0; }
+  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -67,6 +83,7 @@ html.dark { color-scheme: dark; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
