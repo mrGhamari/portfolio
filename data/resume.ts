@@ -7,6 +7,7 @@ export type Personal = Readonly<{
   location: string;
   linkedinHandle: string;
   linkedinUrl: string;
+  githubUrl: string;
   portfolioUrl: string;
   resumeUrl: string;
   resumeFilename: string;
@@ -53,6 +54,7 @@ export const PERSONAL: Personal = {
   location: 'Tehran, Iran',
   linkedinHandle: 'mrGhamari',
   linkedinUrl: 'https://www.linkedin.com/in/mrGhamari',
+  githubUrl: 'https://github.com/mrGhamari',
   portfolioUrl: 'https://mrghamari.github.io/portfolio/',
   resumeUrl: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/Resume.pdf`,
   resumeFilename: 'Mohammadreza_Ghamari_Resume.pdf',
@@ -75,12 +77,28 @@ export const SUMMARY_HIGHLIGHTS: readonly string[] = [
 export const SKILL_GROUPS: readonly SkillGroup[] = [
   { category: 'Languages',              level: 5, items: ['JavaScript', 'TypeScript'] },
   { category: 'Frameworks',             level: 5, items: ['Next.js', 'React.js', 'Vue.js', 'Nuxt.js'] },
+  { category: 'Styling & UI',           level: 5, items: ['Tailwind CSS', 'shadcn/ui'] },
+  { category: 'Libraries',              level: 4, items: ['Zod', 'i18next'] },
+  { category: 'Testing',                level: 4, items: ['Vitest', 'Playwright'] },
   { category: 'Version Control System', level: 4, items: ['Git', 'Azure'] },
   { category: 'Databases',              level: 3, items: ['PostgreSQL', 'MySQL', 'MongoDB'] },
   { category: 'Other',                  level: 3, items: ['SEO Technical', 'Node.js', 'Docker', 'Express.js'] },
 ] as const;
 
 export const EXPERIENCE: readonly Experience[] = [
+  {
+    role: 'Senior Frontend Developer',
+    company: 'Omid Tech',
+    period: '06/2026 — Present',
+    location: 'Tehran, Iran',
+    bullets: [
+      'Building Sepah Internet Bank, the new internet banking platform for Bank Sepah, from scratch with Next.js 16, React 19, TypeScript, Tailwind CSS v4 and shadcn/ui. The app is Persian-first (RTL) with an English version, supports light and dark themes and can be installed as a PWA.',
+      'Implemented login with OTP for new devices, forced password change and password recovery, along with a multi-step signup flow that includes remote identity verification (KYC).',
+      'Developed the accounts, cards, statements and loans sections (including installment payments) and money transfers over internal, PAYA, SATNA, card-to-card and card-to-IBAN, with OTP confirmation, receipts, scheduled recurring transfers and an approval list for pending transfers.',
+      'Set up the architecture and security rules before the first feature shipped: layer boundaries enforced by ESLint, httpOnly cookie sessions checked on the server on every request, and Zod validation at every boundary.',
+      'Covered the app with unit, integration, E2E and accessibility tests using Vitest and Playwright, and shipped it with Docker.',
+    ],
+  },
   {
     role: 'Senior Frontend Developer',
     company: 'Trend Marketing Solution',

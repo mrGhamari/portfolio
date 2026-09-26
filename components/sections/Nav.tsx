@@ -42,7 +42,11 @@ export function Nav() {
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => setShowHeader(!entry.isIntersecting),
+      ([entry]) => {
+        const visible = !entry.isIntersecting;
+        setShowHeader(visible);
+        if (!visible) setOpen(false);
+      },
       { threshold: 0, rootMargin: '-56px 0px 0px 0px' },
     );
 
@@ -55,7 +59,8 @@ export function Nav() {
       initial={false}
       animate={{ y: showHeader ? 0 : -80, opacity: showHeader ? 1 : 0 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      aria-hidden={!showHeader}
+      // `inert` (unlike aria-hidden) also removes the links from the tab order.
+      inert={!showHeader}
       className={cn(
         'fixed inset-x-0 top-0 z-40 border-b border-black/5 bg-secondary/75 backdrop-blur-xl backdrop-saturate-150 dark:border-white/10 dark:bg-primary/75',
         !showHeader && 'pointer-events-none',

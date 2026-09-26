@@ -149,8 +149,18 @@ my-app/
 - Theme honors `prefers-color-scheme` and exposes a manual toggle.
 
 ### Built for the open web
-- Open Graph + Twitter card metadata in `app/layout.tsx`.
+- Full metadata in `app/layout.tsx`: canonical URL, robots directives, Open Graph profile + Twitter card with a 1200×630 image (`public/og-image.png`).
+- JSON-LD (`ProfilePage` + `Person` + `WebSite`) generated from `data/resume.ts` in `components/seo/StructuredData.tsx`.
+- `sitemap.xml`, `robots.txt` and `manifest.webmanifest` from `app/sitemap.ts`, `app/robots.ts`, `app/manifest.ts`; PNG favicons and an Apple touch icon in `public/`.
+- A `noindex` 404 page (`app/not-found.tsx`).
 - Themed `themeColor` for both light and dark UA chrome.
+
+#### Search Console setup
+1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/portfolio/` and pick the **HTML tag** method.
+2. Copy the `content` token into a repository variable named `GOOGLE_SITE_VERIFICATION` (Settings → Secrets and variables → Actions → Variables) and re-run the deploy workflow.
+3. Verify, then submit `sitemap.xml` under **Sitemaps**.
+
+> Crawlers only read `robots.txt` from a domain root, so it is ignored while the site lives under `/portfolio/`. It starts working once the site is served from a custom domain or a `<user>.github.io` repository.
 
 ---
 

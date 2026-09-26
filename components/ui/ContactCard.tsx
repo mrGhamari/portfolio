@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import type { ComponentType, SVGProps } from 'react';
 
@@ -10,7 +7,6 @@ type ContactCardProps = {
   value: string;
   href: string;
   external?: boolean;
-  index?: number;
 };
 
 export function ContactCard({
@@ -19,24 +15,19 @@ export function ContactCard({
   value,
   href,
   external = false,
-  index = 0,
 }: ContactCardProps) {
   return (
-    <motion.a
+    <a
       href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       aria-label={`${label}: ${value}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.02, y: -2 }}
       className={[
-        'group flex items-center gap-4 rounded-2xl border p-5',
+        'reveal group flex items-center gap-4 rounded-2xl border p-5',
         'border-black/10 bg-white',
         'dark:border-white/10 dark:bg-white/[0.03]',
-        'transition-colors duration-300',
+        'transition-[color,border-color,box-shadow,scale,translate] duration-300',
+        'hover:-translate-y-0.5 hover:scale-[1.02]',
         'hover:border-accent-400/60 hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500',
       ].join(' ')}
@@ -56,6 +47,6 @@ export function ContactCard({
         className="h-4 w-4 text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         aria-hidden="true"
       />
-    </motion.a>
+    </a>
   );
 }

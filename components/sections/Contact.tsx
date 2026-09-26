@@ -1,5 +1,3 @@
-'use client';
-
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { LinkedinIcon } from '@/components/ui/icons/LinkedinIcon';
 import { PERSONAL } from '@/data/resume';
@@ -26,7 +24,7 @@ export function Contact() {
           Let’s build something.
         </SectionHeading>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {items.map((it, i) => (
+          {items.map((it) => (
             <ContactCard
               key={it.label}
               icon={it.icon}
@@ -34,7 +32,6 @@ export function Contact() {
               value={it.value}
               href={it.href}
               external={it.external}
-              index={i}
             />
           ))}
         </div>
