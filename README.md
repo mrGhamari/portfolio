@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-EF4444?logo=framer&logoColor=white)](https://www.framer.com/motion/)
-[![Deploy](https://img.shields.io/badge/Deploy-GitHub_Pages-222?logo=github)](https://mrghamari.github.io/portfolio/)
+[![Deploy](https://img.shields.io/badge/Deploy-GitHub_Pages-222?logo=github)](https://mrghamari.github.io/)
 [![License](https://img.shields.io/badge/License-MIT-green)](#-license)
 
 A statically-exported, fully-typed personal site that reads like a résumé and behaves like a product. Built with the Next.js App Router, Tailwind CSS 4, and Framer Motion — and deployed to GitHub Pages as plain HTML and JS.
@@ -31,7 +31,7 @@ A statically-exported, fully-typed personal site that reads like a résumé and 
 ![Light mode preview](./public/preview-light.png)
 ![Dark mode preview](./public/preview-dark.png)
 
-Live: **https://mrghamari.github.io/portfolio/**
+Live: **https://mrghamari.github.io/**
 
 ---
 
@@ -45,8 +45,8 @@ Live: **https://mrghamari.github.io/portfolio/**
 **Get it running**
 
 ```bash
-git clone https://github.com/mrGhamari/portfolio.git
-cd portfolio
+git clone https://github.com/mrGhamari/mrghamari.github.io.git
+cd mrghamari.github.io
 npm ci
 npm run dev
 ```
@@ -106,7 +106,7 @@ my-app/
 ├── .github/workflows/
 │   └── jekyll-gh-pages.yml       # Build + deploy to GitHub Pages
 │
-├── next.config.mjs               # Static export + basePath for /portfolio/
+├── next.config.mjs               # Static export (served from the domain root)
 ├── postcss.config.mjs            # @tailwindcss/postcss
 ├── tsconfig.json                 # strict mode, @/* path alias
 └── package.json
@@ -156,11 +156,11 @@ my-app/
 - Themed `themeColor` for both light and dark UA chrome.
 
 #### Search Console setup
-1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/portfolio/` and pick the **HTML tag** method.
+1. In [Google Search Console](https://search.google.com/search-console), add a **URL prefix** property for `https://mrghamari.github.io/` and pick the **HTML tag** method.
 2. The token is set in `app/layout.tsx` (it is public anyway: it ships in the page's `<head>`). To use a different one without a code change, set a repository variable named `GOOGLE_SITE_VERIFICATION` (Settings → Secrets and variables → Actions → Variables) and re-run the deploy workflow.
 3. Verify, then submit `sitemap.xml` under **Sitemaps**. Keep the tag in place afterwards: Google re-checks it periodically.
 
-> Crawlers only read `robots.txt` from a domain root, so it is ignored while the site lives under `/portfolio/`. It starts working once the site is served from a custom domain or a `<user>.github.io` repository.
+> The site used to live at `/portfolio/`. `public/portfolio/index.html` redirects old links to the root.
 
 ---
 
@@ -196,7 +196,7 @@ app/page.tsx
 | Script           | What it does                                                                  |
 | ---------------- | ----------------------------------------------------------------------------- |
 | `npm run dev`    | Start the Next.js dev server at <http://localhost:3000>.                      |
-| `npm run build`  | Static-export the site to `./out/` with `basePath=/portfolio` in production.  |
+| `npm run build`  | Static-export the site to `./out/`.                                           |
 | `npm run start`  | Serve a production build (rarely needed — this site exports static HTML).     |
 | `npm run lint`   | Run `next lint` with the `next/core-web-vitals` ruleset.                      |
 | `npm run deploy` | Build + push `./out/` to the `gh-pages` branch via `gh-pages` CLI.            |
@@ -230,9 +230,9 @@ npm run build         # must pass before opening a PR
 
 - **No `tailwind.config.js`.** Tailwind 4 is configured entirely from `app/globals.css` using `@theme { … }` CSS variables. The accent palette, font, and easing curve all live there.
 - **The header doesn't listen to scroll events.** Both "active section" and "is hero visible" are wired through `IntersectionObserver` — cheaper, smoother, and never out of sync with layout.
-- **`basePath` is build-time conditional.** `next.config.mjs` only sets `basePath: '/portfolio'` when `NODE_ENV === 'production'`, so `npm run dev` stays at `/` and links don't break locally.
+- **It's a `<user>.github.io` repo on purpose.** Google only reads the site name, favicon and `robots.txt` at the domain root, so the site is served from `/` instead of a `/portfolio/` subpath.
 - **The animated nav underline uses `layoutId`.** One element, morphed between sections — that's why it slides instead of cross-fading.
-- **The Bunny Fonts CDN** serves Inter (privacy-friendlier than Google Fonts), pulled in directly from `globals.css`.
+- **Inter is self-hosted** through `next/font`, so there is no third-party font request at runtime.
 
 ---
 

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   creator: PERSONAL.name,
   publisher: PERSONAL.name,
   category: 'technology',
-  // Relative to metadataBase, so this resolves to the /portfolio/ URL.
+  // Relative to metadataBase, so this resolves to the site root.
   alternates: { canonical: './' },
   robots: {
     index: true,

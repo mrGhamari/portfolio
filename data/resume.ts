@@ -58,7 +58,7 @@ export const PERSONAL: Personal = {
   linkedinHandle: 'mrGhamari',
   linkedinUrl: 'https://www.linkedin.com/in/mrGhamari',
   githubUrl: 'https://github.com/mrGhamari',
-  portfolioUrl: 'https://mrghamari.github.io/portfolio/',
+  portfolioUrl: 'https://mrghamari.github.io/',
   resumeUrl: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/Resume.pdf`,
   resumeFilename: 'Mohammadreza_Ghamari_Resume.pdf',
 } as const;

@@ -1,6 +1,6 @@
 import { PERSONAL } from '@/data/resume';
 
-/** Mirrors `basePath` in next.config.mjs (GitHub Pages project site). */
+/** Path prefix for public assets; empty since the site is served from the domain root. */
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 /** Absolute URL of the site root, always with a trailing slash. */
