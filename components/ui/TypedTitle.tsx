@@ -33,10 +33,12 @@ function useTypewriter(text: string, speed = 60, startDelay = 300) {
 type TypedTitleProps = {
   text: string;
   className?: string;
+  /** ms before typing starts. */
+  startDelay?: number;
 };
 
-export function TypedTitle({ text, className }: TypedTitleProps) {
-  const typed = useTypewriter(text);
+export function TypedTitle({ text, className, startDelay }: TypedTitleProps) {
+  const typed = useTypewriter(text, undefined, startDelay);
   const typingDone = typed.length === text.length;
 
   return (

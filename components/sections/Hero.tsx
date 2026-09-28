@@ -4,9 +4,8 @@ import { LinkedinIcon } from '@/components/ui/icons/LinkedinIcon';
 import { PERSONAL } from '@/data/resume';
 import { ContactPill } from '@/components/ui/ContactPill';
 import { Container } from '@/components/ui/Container';
+import { HandleToName } from '@/components/ui/HandleToName';
 import { TypedTitle } from '@/components/ui/TypedTitle';
-
-const nameLetters = PERSONAL.name.split('');
 
 const delay = (seconds: number): CSSProperties => ({
   animationDelay: `${seconds}s`,
@@ -33,21 +32,14 @@ export function Hero() {
 
         <h1
           aria-label={PERSONAL.name}
-          className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-primary dark:text-secondary md:text-6xl"
+          className="mt-4 text-[clamp(1.5rem,7.2vw,2.25rem)] font-bold leading-[1.05] tracking-tight text-primary dark:text-secondary md:text-6xl"
         >
-          {nameLetters.map((char, i) => (
-            <span
-              key={i}
-              style={delay(0.1 + i * 0.025)}
-              className="inline-block animate-letter-rise"
-            >
-              {char === ' ' ? ' ' : char}
-            </span>
-          ))}
+          <HandleToName name={PERSONAL.name} handle={PERSONAL.linkedinHandle} />
         </h1>
 
         <TypedTitle
           text={PERSONAL.title}
+          startDelay={1500}
           className="mt-4 min-h-[1.5em] text-xl font-light tracking-wide text-muted md:text-2xl"
         />
 
