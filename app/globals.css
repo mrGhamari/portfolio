@@ -48,6 +48,65 @@
 }
 
 /*
+ * Hero name: "mrGhamari" -> "Mohammadreza Ghamari" (components/ui/HandleToName.tsx).
+ * 1. handle letters rise in, in the accent color;
+ * 2. the missing letters open up between them and "m" turns into "M";
+ * 3. the accent fades to the normal text color.
+ * Every letter is an inline-block aligned to the top so the clipped (growing)
+ * ones share a baseline with the rest. Under reduced motion the global rule
+ * below zeroes durations and delays, so the full name shows immediately.
+ */
+.hn-keep,
+.hn-grow,
+.hn-morph { vertical-align: top; }
+.hn-keep { display: inline-block; }
+
+/* --d is the per-letter delay (set inline); the ink fade starts after the grow. */
+.hn-keep {
+  animation:
+    letter-rise 0.5s var(--ease-smooth) both,
+    hn-ink 0.8s ease both;
+  animation-delay: var(--d, 0s), 1.55s;
+}
+
+/*
+ * Opens to the letter's exact width (0fr -> 1fr) while the glyph rises into
+ * view inside its own clipped box.
+ */
+.hn-grow {
+  display: inline-grid;
+  grid-template-columns: 0fr;
+  animation: hn-open 0.7s var(--ease-smooth) var(--d, 0s) both;
+}
+.hn-grow > span {
+  min-width: 0;
+  overflow: hidden;
+  animation: hn-show 0.55s var(--ease-smooth) calc(var(--d, 0s) + 0.06s) both;
+}
+
+/* "m" rolls up and out while "M" rolls in, like an odometer digit. */
+.hn-morph {
+  display: inline-grid;
+  overflow: hidden;
+}
+.hn-morph::before,
+.hn-morph-to { grid-area: 1 / 1; }
+/* The handle's lowercase "m" is CSS content, so it never ends up in the DOM text. */
+.hn-morph::before {
+  content: attr(data-from);
+  justify-self: center;
+  animation: hn-roll-out 0.5s var(--ease-smooth) 0.95s both;
+}
+.hn-morph-to { animation: hn-roll-in 0.5s var(--ease-smooth) 0.95s both; }
+
+@keyframes hn-open { to { grid-template-columns: 1fr; } }
+@keyframes hn-show { from { opacity: 0; transform: translateY(0.6em); } }
+/* No "to" keyframe: it ends on the element's own color, in either theme. */
+@keyframes hn-ink { from { color: var(--color-accent-500); } }
+@keyframes hn-roll-out { to { transform: translateY(-105%); } }
+@keyframes hn-roll-in { from { transform: translateY(105%); } }
+
+/*
  * Scroll-reveal without JavaScript: CSS scroll-driven animations.
  * Content is fully visible in the static HTML; it is only hidden-then-revealed
  * in browsers that support view timelines, and never when reduced motion is on.
